@@ -1,0 +1,14 @@
+[Unit]
+Description=LED Panel Serial Bridge
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/led-panel/bridge
+Environment=LED_BRIDGE_PORT=8765
+ExecStart=/usr/bin/sg uucp -c "%h/led-panel/bridge/.venv/bin/python %h/led-panel/bridge/bridge.py"
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

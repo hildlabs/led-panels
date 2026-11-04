@@ -1,0 +1,24 @@
+# Dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo
+.venv/
+venv/
+__pycache__/
+
+# Local environment
+.env
+*.env
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Internal working files
+.claude/
+CLAUDE.md
+
+# Panel model from MakerWorld, not redistributable (see README)
+*.stl
