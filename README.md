@@ -13,6 +13,11 @@
   <img src="https://img.shields.io/badge/License-MIT-blue" alt="MIT">
 </p>
 
+<p align="center">
+  <a href="https://hildlabs.github.io/led-panels/"><b>▶ Try the dashboard in your browser</b></a><br>
+  <sub>Live demo with simulated panels: all effects, the 3D preview and the keyframe builder, no hardware needed.</sub>
+</p>
+
 ---
 
 <p align="center">
@@ -147,6 +152,11 @@ LED_BRIDGE_URL=http://<pc>:8765 .venv/bin/python server.py   # serves on :8787
 For frontend work, `npm run dev` in `dashboard/web` proxies `/api` to
 `LED_DASHBOARD_URL` (default `http://127.0.0.1:8787`). Example systemd units for
 both services are in the `systemd/` folders.
+
+The [live demo](https://hildlabs.github.io/led-panels/) is the same dashboard
+built with `VITE_DEMO=1`: the API layer reports a simulated link and drops
+writes, everything else runs unchanged. `.github/workflows/pages.yml` builds it
+on every push to `main`.
 
 ## Panel model
 

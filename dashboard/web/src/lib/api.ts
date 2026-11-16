@@ -9,9 +9,23 @@ export type BridgeState = {
 export type Status = {
   reachable: boolean;
   bridge: { ok: boolean; connected: boolean; port: string | null } | null;
+  demo?: boolean;
+};
+
+/**
+ * Browser-only demo build (`VITE_DEMO=1`, used for GitHub Pages): no bridge,
+ * no hardware. The 3D view already renders every effect locally, so the API
+ * calls simply report a simulated link and drop writes.
+ */
+export const DEMO = import.meta.env.VITE_DEMO === "1";
+const DEMO_STATUS: Status = {
+  reachable: true,
+  bridge: { ok: true, connected: true, port: "3D simulation" },
+  demo: true,
 };
 
 export async function fetchStatus(): Promise<Status> {
+  if (DEMO) return DEMO_STATUS;
   try {
     const r = await fetch("/api/status", { cache: "no-store" });
     if (!r.ok) return { reachable: false, bridge: null };
@@ -22,6 +36,7 @@ export async function fetchStatus(): Promise<Status> {
 }
 
 export async function fetchState(): Promise<BridgeState | null> {
+  if (DEMO) return null;
   try {
     const r = await fetch("/api/state", { cache: "no-store" });
     if (!r.ok) return null;
@@ -32,6 +47,7 @@ export async function fetchState(): Promise<BridgeState | null> {
 }
 
 export async function patchState(patch: Partial<BridgeState>): Promise<void> {
+  if (DEMO) return;
   try {
     await fetch("/api/state", {
       method: "POST",
@@ -44,6 +60,7 @@ export async function patchState(patch: Partial<BridgeState>): Promise<void> {
 }
 
 export async function postCommand(line: string): Promise<void> {
+  if (DEMO) return;
   try {
     await fetch("/api/command", {
       method: "POST",

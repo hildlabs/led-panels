@@ -16,7 +16,7 @@ import {
   type EffectState,
   hsv2rgb,
 } from "./effects/types";
-import { bytesToHex, fetchState, patchState, postCommand } from "./lib/api";
+import { DEMO, bytesToHex, fetchState, patchState, postCommand } from "./lib/api";
 import {
   loadKeyframeEffects,
   newEffect,
@@ -24,7 +24,8 @@ import {
 } from "./effects/keyframe";
 
 const DEFAULT_STATE: EffectState = {
-  mode: "infinity",
+  // the demo opens on a full-panel effect so the 3D view is lit right away
+  mode: DEMO ? "rainbow" : "infinity",
   bri: 170,
   speed: 3000,
   hue: 170,

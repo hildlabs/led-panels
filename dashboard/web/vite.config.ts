@@ -2,6 +2,8 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
+  // GitHub Pages serves the demo from /led-panels/
+  base: process.env.VITE_BASE ?? "/",
   plugins: [react()],
   server: {
     proxy: {

@@ -5,8 +5,9 @@ export function ConnectionIndicator({ status }: { status: Status }) {
   const online = status.reachable && status.bridge?.connected;
   const bridgeUp = status.reachable;
   const state: "on" | "mid" | "off" = online ? "on" : bridgeUp ? "mid" : "off";
-  const label =
-    state === "on"
+  const label = status.demo
+    ? "DEMO · NO HARDWARE"
+    : state === "on"
       ? "LINK · ONLINE"
       : state === "mid"
         ? "BRIDGE · NO DEVICE"

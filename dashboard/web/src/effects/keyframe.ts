@@ -18,6 +18,7 @@ import {
   type EffectState,
   setLed,
 } from "./types";
+import { DEMO } from "../lib/api";
 
 export type RGB = [number, number, number];
 
@@ -47,7 +48,7 @@ let cache: KeyframeEffectDef[] | null = null;
 function readStorage(): KeyframeEffectDef[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
+    if (!raw) return DEMO ? [demoEffect()] : [];
     const arr = JSON.parse(raw);
     if (!Array.isArray(arr)) return [];
     return arr.filter(isValidEffect);
@@ -59,6 +60,35 @@ function readStorage(): KeyframeEffectDef[] {
 export function loadKeyframeEffects(): KeyframeEffectDef[] {
   if (cache === null) cache = readStorage();
   return cache;
+}
+
+// Demo build only: one ready-made custom effect, so the builder has something
+// to open before the visitor saves their own.
+function demoEffect(): KeyframeEffectDef {
+  const palette: RGB[] = [
+    [255, 40, 120],
+    [255, 170, 0],
+    [0, 220, 255],
+    [140, 60, 255],
+  ];
+  const keyframes: Keyframe[] = palette.map((_, step) => {
+    const colors: Record<number, RGB[]> = {};
+    const panels: number[] = [];
+    for (let p = 0; p < NUM_PANELS; p++) {
+      panels.push(p);
+      const c = palette[(p + step) % palette.length];
+      colors[p] = Array.from({ length: PANEL_LEDS }, () => [...c] as RGB);
+    }
+    return { t: step * 1000, panels, colors };
+  });
+  return {
+    id: "kf-demo-rotate",
+    label: "Color Rotate",
+    blurb: "keyframe demo",
+    duration: 4000,
+    loop: true,
+    keyframes,
+  };
 }
 
 function writeStorage(all: KeyframeEffectDef[]) {

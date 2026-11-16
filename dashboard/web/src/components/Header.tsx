@@ -26,6 +26,18 @@ export function Header({
         </div>
       </div>
       <div className="flex items-center gap-4">
+        {status.demo && (
+          <a
+            href="https://github.com/hildlabs/led-panels"
+            target="_blank"
+            rel="noreferrer"
+            className="hidden sm:flex flex-col items-end module-surface px-3 py-1.5 hover:text-ink-50 transition-colors"
+            title="Live demo: every effect renders in your browser, no panels attached"
+          >
+            <span className="caps text-ink-300">LIVE DEMO · BROWSER ONLY</span>
+            <span className="caps text-ink-100">SOURCE ON GITHUB ↗</span>
+          </a>
+        )}
         <div className="hidden md:flex flex-col items-end">
           <span className="caps text-ink-300">FIRMWARE</span>
           <span className="font-mono text-xs text-ink-100">v0.2 · ws2812b · 64 px</span>
